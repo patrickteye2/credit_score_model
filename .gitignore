@@ -235,3 +235,6 @@ __pycache__/
 *.docx
 *.dotx
 ~$*
+
+# Loan-level scorecard output, regenerable
+notebooks/scorecard_test_results.csv

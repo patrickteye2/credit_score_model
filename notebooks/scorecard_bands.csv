@@ -1,0 +1,4 @@
+band,score_band,action,loans,defaults,default_rate,share_of_loans,share_of_defaults
+Low,741 to 850,Approve,3043,81,0.0266,0.4669,0.057
+Medium,499 to 740,Review,2406,327,0.1359,0.3692,0.23
+High,300 to 498,Decline,1068,1014,0.9494,0.1639,0.7131

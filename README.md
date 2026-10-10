@@ -130,10 +130,27 @@ file, in the same way, and writes down why.
 
 ## The scorecard layer
 
-Not yet built. The next step is `scorecard_cs.ipynb`, which converts the tuned model's predicted
-probabilities into score bands mapped to Low, Medium and High risk tiers, each with a recommended action of
-approve, review or decline, and reports the observed default rate within each band. A probability is not a
-decision. The band is the output a committee actually uses.
+The tuned model's probabilities are converted into a 300 to 850 score (higher is safer) and three bands, each
+with a recommended action. Cutoffs were set on out-of-fold predictions from the training data only, so the
+test fold was used once, to report how the bands perform on loans the model never saw.
+
+| Score band | Risk tier | Recommended action | Loans | Observed default rate |
+|---|---|---|---|---|
+| 741 to 850 | Low | Approve | 3,043 (46.7%) | 2.7% |
+| 499 to 740 | Medium | Review | 2,406 (36.9%) | 13.6% |
+| 300 to 498 | High | Decline | 1,068 (16.4%) | 94.9% |
+
+The ordering holds: default rates rise from Low to Medium to High, against a book average of 21.8%. In
+committee terms, nearly half the book clears without a second look at a 2.7% default rate, the decline band
+catches 71.3% of all defaults while turning away only 1.1% of good loans, and the remaining 37% is where
+analyst time should go, since it holds 23% of the defaults.
+
+![Scorecard bands](plots/scorecard_bands.png)
+
+Read the High band with caution. A 94.9% default rate is partly the model leaning on the lender's own grade
+and rate, and the borrower-only comparison above shows how much that flatters the result. The raw
+probabilities are also not calibrated, because of the balanced class weights, so quote the observed default
+rate per band and not the probability. Details are in `scorecard_cs.ipynb`.
 
 ## What this means for private debt in Ghana
 
@@ -167,21 +184,46 @@ notebooks/
   feature_engineering_cs.ipynb     cleaning, imputation, derived features
   model_cs.ipynb                   training, evaluation, model comparison
   model_results.csv                the results table above
-  scorecard_cs.ipynb               score bands and actions (not yet built)
+  scorecard_cs.ipynb               score bands and recommended actions
+  scorecard_bands.csv              the band table above
 plots/                             all charts
 requirements.txt
 ```
 
 ## Running it
 
+### Windows (PowerShell)
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+Set-Location notebooks
+jupyter notebook
+```
+
+If PowerShell blocks virtual-environment activation, run the environment's
+executables directly instead:
+
+```powershell
+.\.venv\Scripts\python.exe -m pip install --upgrade pip
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\jupyter.exe notebook notebooks
+```
+
+### macOS / Linux
+
 ```bash
-python -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
 cd notebooks
 jupyter notebook
 ```
 
-Run `feature_engineering_cs.ipynb` before `model_cs.ipynb`. The first writes the dataset the second reads.
+Run `feature_engineering_cs.ipynb` before `model_cs.ipynb`, and `model_cs.ipynb` before `scorecard_cs.ipynb`. Each writes the files the next one reads.
 
 ---
 
