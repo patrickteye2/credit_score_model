@@ -216,3 +216,22 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Trained model artefacts. Binary, regenerable, and they bloat the history.
+models/
+
+# Intermediate dataset produced by feature_engineering_cs.ipynb
+credit_data_engineered.csv
+
+# Local environment
+.venv/
+venv/
+__pycache__/
+.ipynb_checkpoints/
+.DS_Store
+
+# Word files are never committed
+*.doc
+*.docx
+*.dotx
+~$*
