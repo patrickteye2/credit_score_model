@@ -117,11 +117,11 @@ its own paper would actually run.
 
 | Feature | Importance | What it means for a lending decision |
 |---|---|---|
-| `loan_to_income` | 0.311 | The share of income committed to the loan is the single strongest signal, carrying close to a third of the model's weight on its own. Affordability, not history, is what separates the book. |
-| `person_income` | 0.210 | Income level matters independently of the ratio. Two borrowers at the same loan-to-income can have very different capacity to absorb a shock, and the model sees that. |
-| `loan_amnt` | 0.084 | Ticket size adds signal beyond the ratio. At the same income, larger facilities carry more risk, which argues for tighter scrutiny thresholds by size. |
-| `person_home_ownership_RENT` | 0.075 | Renting rather than owning or holding a mortgage is a meaningful risk marker. We read it as a proxy for balance sheet depth, not as a judgement about the borrower. |
-| `is_repeat_defaulter` | 0.073 | Prior default on file matters, but it ranks below affordability. For a lender that screens on credit history first, that ordering is worth knowing. |
+| Loan-to-income ratio | 0.311 | The share of income committed to the loan is the single strongest signal, carrying close to a third of the model's weight on its own. Affordability, not history, is what separates the book. |
+| Borrower income | 0.210 | Income level matters independently of the ratio. Two borrowers at the same loan-to-income can have very different capacity to absorb a shock, and the model sees that. |
+| Loan amount | 0.084 | Ticket size adds signal beyond the ratio. At the same income, larger facilities carry more risk, which argues for tighter scrutiny thresholds by size. |
+| Home: renting | 0.075 | Renting rather than owning or holding a mortgage is a meaningful risk marker. We read it as a proxy for balance sheet depth, not as a judgement about the borrower. |
+| Prior default on file | 0.073 | Prior default on file matters, but it ranks below affordability. For a lender that screens on credit history first, that ordering is worth knowing. |
 
 Taken together, loan-to-income and income carry over half the explanatory weight. In other words the model is
 largely a formalised affordability test, which is close to what an experienced credit analyst does by
